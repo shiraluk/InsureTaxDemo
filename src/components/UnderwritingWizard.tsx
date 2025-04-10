@@ -122,146 +122,169 @@ const UnderwritingWizard = () => {
     <Box 
       sx={{ 
         minHeight: '100vh',
-        bgcolor: 'background.default'
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+        width: '100vw',
+        overflow: 'hidden'
       }}
     >
-      <Header />
-      <Box sx={{ py: 4 }}>
-        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Paper 
-            elevation={6} 
+      <Box sx={{ width: '100%' }}>
+        <Header />
+      </Box>
+      <Box 
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          p: { xs: 2, sm: 3, md: 4 }
+        }}
+      >
+        <Paper 
+          elevation={6} 
+          sx={{ 
+            width: '100%',
+            maxWidth: { xs: '100%', sm: '600px', md: '800px', lg: '1000px' },
+            p: { xs: 2, sm: 3, md: 4 },
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '6px',
+              background: (theme) => `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
+            }
+          }}
+        >
+          <Typography 
+            variant="h4" 
             sx={{ 
-              p: 5, 
-              width: '1280px',
-              borderRadius: 2,
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              position: 'relative',
-              overflow: 'hidden',
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '6px',
-                background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
+              textAlign: 'center', 
+              mb: { xs: 3, sm: 4 }, 
+              fontWeight: 600,
+              color: 'primary.main',
+              fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' }
+            }}
+          >
+            Business Insurance Quote
+          </Typography>
+          
+          <Stepper 
+            activeStep={activeStep} 
+            alternativeLabel
+            sx={{
+              '& .MuiStepLabel-label': {
+                fontWeight: 500,
+                fontSize: { xs: '0.875rem', sm: '1rem' }
+              },
+              '& .MuiStepLabel-label.Mui-active': {
+                color: 'primary.main'
+              },
+              '& .MuiStepLabel-label.Mui-completed': {
+                color: 'success.main'
               }
             }}
           >
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          
+          <Box sx={{ 
+            mt: { xs: 4, sm: 6 }, 
+            minHeight: { xs: '300px', sm: '350px' }, 
+            display: 'flex', 
+            flexDirection: 'column' 
+          }}>
             <Typography 
-              variant="h4" 
+              variant="h5" 
               sx={{ 
                 textAlign: 'center', 
-                mb: 4, 
-                fontWeight: 600,
-                color: theme.palette.primary.main
+                mb: { xs: 3, sm: 4 },
+                fontWeight: 500,
+                color: 'text.primary',
+                fontSize: { xs: '1.25rem', sm: '1.5rem' }
               }}
             >
-              Business Insurance Quote
+              {stepQuestions[activeStep]}
             </Typography>
             
-            <Stepper 
-              activeStep={activeStep} 
-              alternativeLabel
-              sx={{
-                '& .MuiStepLabel-label': {
-                  fontWeight: 500,
-                  fontSize: '1rem'
-                },
-                '& .MuiStepLabel-label.Mui-active': {
-                  color: theme.palette.primary.main
-                },
-                '& .MuiStepLabel-label.Mui-completed': {
-                  color: theme.palette.success.main
-                }
-              }}
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleNext}
             >
-              {steps.map((label, index) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            
-            <Box sx={{ mt: 6, minHeight: '300px', display: 'flex', flexDirection: 'column' }}>
-              <Typography 
-                variant="h5" 
-                sx={{ 
-                  textAlign: 'center', 
-                  mb: 4,
-                  fontWeight: 500,
-                  color: theme.palette.text.primary
-                }}
-              >
-                {stepQuestions[activeStep]}
-              </Typography>
-              
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleNext}
-              >
-                {({ values, handleSubmit }) => (
-                  <Form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <Box sx={{ 
-                      flex: 1, 
-                      display: 'flex', 
-                      flexDirection: 'column', 
-                      alignItems: 'center',
-                      width: '100%',
-                      maxWidth: '800px',
-                      margin: '0 auto'
-                    }}>
-                      {getStepContent(activeStep)}
-                    </Box>
-                    
-                    <Box sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
-                      mt: 5,
-                      position: 'sticky',
-                      bottom: 0,
-                      backgroundColor: 'white',
-                      padding: '20px 0',
-                      borderTop: `1px solid ${theme.palette.divider}`,
-                      width: '100%',
-                      maxWidth: '800px',
-                      margin: '0 auto'
-                    }}>
-                      <Button
-                        variant="outlined"
-                        onClick={handleBack}
-                        disabled={activeStep === 0}
-                        sx={{ 
-                          px: 4,
-                          py: 1.5,
-                          borderRadius: 2,
-                          fontWeight: 500
-                        }}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        sx={{ 
-                          px: 4,
-                          py: 1.5,
-                          borderRadius: 2,
-                          fontWeight: 500,
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-                        }}
-                      >
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                      </Button>
-                    </Box>
-                  </Form>
-                )}
-              </Formik>
-            </Box>
-          </Paper>
-        </Container>
+              {({ values, handleSubmit }) => (
+                <Form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <Box sx={{ 
+                    flex: 1, 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center',
+                    width: '100%',
+                    maxWidth: { xs: '100%', sm: '500px' },
+                    margin: '0 auto'
+                  }}>
+                    {getStepContent(activeStep)}
+                  </Box>
+                  
+                  <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    mt: { xs: 3, sm: 4 },
+                    pt: { xs: 2, sm: 3 },
+                    position: 'sticky',
+                    bottom: 0,
+                    backgroundColor: 'background.paper',
+                    borderTop: 1,
+                    borderColor: 'divider',
+                    width: '100%',
+                    maxWidth: { xs: '100%', sm: '500px' },
+                    margin: '0 auto'
+                  }}>
+                    <Button
+                      variant="outlined"
+                      onClick={handleBack}
+                      disabled={activeStep === 0}
+                      sx={{ 
+                        px: { xs: 3, sm: 4 },
+                        py: 1.5,
+                        borderRadius: 2,
+                        fontWeight: 600,
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{ 
+                        px: { xs: 3, sm: 4 },
+                        py: 1.5,
+                        borderRadius: 2,
+                        fontWeight: 600,
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {activeStep === steps.length - 1 ? 'Get Quote' : 'Next'}
+                    </Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Paper>
       </Box>
     </Box>
   );
