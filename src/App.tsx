@@ -6,6 +6,11 @@ import PriceQuotePage from './components/PriceQuotePage';
 import ThankYouPage from './components/ThankYouPage';
 import IneligiblePage from './components/IneligiblePage';
 import LoadingPage from './components/LoadingPage';
+import LoginPage from './components/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './contexts/AuthContext';
+
+console.log('App component loaded');
 
 const theme = createTheme({
   palette: {
@@ -15,22 +20,58 @@ const theme = createTheme({
     secondary: {
       main: '#dc004e',
     },
+    background: {
+      default: '#ffffff',
+    },
   },
 });
 
 function App() {
+  console.log('App component rendering');
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<UnderwritingWizard />} />
-          <Route path="/loading" element={<LoadingPage />} />
-          <Route path="/price-quote" element={<PriceQuotePage />} />
-          <Route path="/thank-you" element={<ThankYouPage />} />
-          <Route path="/ineligible" element={<IneligiblePage />} />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute>
+                  <UnderwritingWizard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/loading" 
+              element={
+                <ProtectedRoute>
+                  <LoadingPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/price-quote" 
+              element={
+                <ProtectedRoute>
+                  <PriceQuotePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/thank-you" 
+              element={
+                <ProtectedRoute>
+                  <ThankYouPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/ineligible" element={<IneligiblePage />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
