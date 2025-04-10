@@ -11,7 +11,6 @@ import {
   FormControlLabel, 
   Alert,
   Divider,
-  Grid,
   useTheme,
   Stack,
   ButtonBase,
@@ -28,12 +27,12 @@ import {
   Checkbox,
   FormControlLabel as MuiFormControlLabel
 } from '@mui/material';
-import { UnderwritingFormData } from '../types';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import { UnderwritingFormData } from '../types';
 
 const PriceQuotePage = () => {
   const location = useLocation();
@@ -276,21 +275,20 @@ const PriceQuotePage = () => {
                     Coverage Amount: ${defendingCostAmount}
                   </Typography>
                   
-                  <Grid container spacing={2}>
+                  <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2 }}>
                     {Object.entries(defendingCostPrices).map(([amount, price]) => (
-                      <Grid item xs={6} sm={4} key={amount}>
+                      <Box key={amount} sx={{ gridColumn: { xs: 'span 2', sm: 'span 1' } }}>
                         <ButtonBase
                           sx={{
                             width: '100%',
-                            textAlign: 'center',
                             p: 2,
-                            borderRadius: 1,
                             border: '1px solid',
-                            borderColor: defendingCostAmount === amount ? 'primary.main' : 'divider',
-                            bgcolor: defendingCostAmount === amount ? 'primary.light' : 'background.paper',
+                            borderColor: 'divider',
+                            borderRadius: 1,
+                            textAlign: 'center',
                             '&:hover': {
-                              bgcolor: defendingCostAmount === amount ? 'primary.light' : 'action.hover',
-                            },
+                              bgcolor: 'action.hover'
+                            }
                           }}
                           onClick={(e) => handleDefendingCostAmountChange(e, amount)}
                         >
@@ -303,9 +301,9 @@ const PriceQuotePage = () => {
                             </Typography>
                           </Stack>
                         </ButtonBase>
-                      </Grid>
+                      </Box>
                     ))}
-                  </Grid>
+                  </Box>
                 </>
               )}
             </Paper>
@@ -515,8 +513,8 @@ const PriceQuotePage = () => {
         <Box sx={{ mb: 3 }}>
           <Typography variant="h5" sx={{ mb: 2 }}>Add a tax year for coverage</Typography>
           
-          <Grid container spacing={4}>
-            <Grid component="div" item xs={12} md={6}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
+            <Box>
               <Typography variant="subtitle1" sx={{ mb: 2 }}>Upload 1120-S tax return</Typography>
               
               <Box
@@ -559,9 +557,9 @@ const PriceQuotePage = () => {
                   </Paper>
                 </Box>
               )}
-            </Grid>
+            </Box>
 
-            <Grid component="div" item xs={12} md={6}>
+            <Box>
               <Typography variant="subtitle1" sx={{ mb: 2 }}>Filing Information</Typography>
               
               <Stack spacing={2}>
@@ -613,8 +611,8 @@ const PriceQuotePage = () => {
                   label="Balance sheet was not submitted"
                 />
               </Stack>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
