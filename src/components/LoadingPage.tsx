@@ -62,28 +62,32 @@ const LoadingPage = () => {
     <Box 
       sx={{ 
         minHeight: '100vh',
-        bgcolor: 'background.default'
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+        width: '100vw',
+        overflow: 'hidden'
       }}
     >
-      <Header />
-      <Container 
-        maxWidth="sm" 
+      <Box sx={{ width: '100%' }}>
+        <Header />
+      </Box>
+      <Box 
         sx={{
-          height: 'calc(100vh - 64px)', // Subtract header height
+          flex: 1,
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
           alignItems: 'center',
-          textAlign: 'center'
+          justifyContent: 'center',
+          width: '100%',
+          p: 2
         }}
       >
         <Paper 
           elevation={6} 
           sx={{ 
-            p: 6,
             width: '100%',
             maxWidth: '500px',
-            mx: 2,
+            p: 4,
             borderRadius: 3,
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
             position: 'relative',
@@ -99,48 +103,41 @@ const LoadingPage = () => {
             }
           }}
         >
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              gap: 4
-            }}
-          >
+          <Box sx={{ textAlign: 'center' }}>
             <CircularProgress 
-              size={100}
+              size={80}
               thickness={4}
               variant="determinate" 
               value={progress} 
-              sx={{ 
-                color: theme.palette.primary.main
-              }} 
+              sx={{ mb: 4 }}
             />
             
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography 
-                variant="h5" 
-                sx={{ 
-                  mb: 2,
-                  fontWeight: 500,
-                  color: theme.palette.text.primary
-                }}
-              >
-                {loadingText}
-              </Typography>
-              
-              <Typography 
-                variant="body1" 
-                color="text.secondary"
-                sx={{ maxWidth: '400px', mx: 'auto' }}
-              >
-                We're preparing your personalized insurance quote based on your information.
-                This will only take a moment.
-              </Typography>
-            </Box>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                mb: 2,
+                fontWeight: 500,
+                fontSize: { xs: '1.75rem', sm: '2rem' },
+                lineHeight: 1.2
+              }}
+            >
+              {loadingText}
+            </Typography>
+            
+            <Typography 
+              sx={{ 
+                color: 'text.secondary',
+                fontSize: { xs: '0.875rem', sm: '1rem' },
+                maxWidth: '320px',
+                mx: 'auto',
+                lineHeight: 1.5
+              }}
+            >
+              We're preparing your personalized insurance quote based on your information. This will only take a moment.
+            </Typography>
           </Box>
         </Paper>
-      </Container>
+      </Box>
     </Box>
   );
 };
