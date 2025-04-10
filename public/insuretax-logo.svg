@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield shape -->
+  <path d="M16 4L8 7V15C8 19.4183 11.5817 23 16 23C20.4183 23 24 19.4183 24 15V7L16 4Z" fill="#4169E1"/>
+  <!-- InsureTax text -->
+  <text x="32" y="20" font-family="Arial" font-size="16" font-weight="600" fill="#000000">InsureTax</text>
+</svg> 
